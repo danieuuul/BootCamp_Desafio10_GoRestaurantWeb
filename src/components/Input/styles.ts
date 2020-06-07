@@ -8,6 +8,7 @@ interface IContainerProps {
 export const Container = styled.div<IContainerProps>`
   display: flex;
   align-items: center;
+  background: ${({ theme }) => theme.colors.inputBackground};
   border-radius: 8px;
   padding: 18px 24px;
   width: 100%;
@@ -36,7 +37,9 @@ export const Container = styled.div<IContainerProps>`
     flex: 1;
     background: transparent;
     border: 0;
+    color: ${({ theme }) => theme.colors.text};
     &::placeholder {
+      color: ${({ theme }) => theme.colors.placeholder};
     }
   }
   svg {

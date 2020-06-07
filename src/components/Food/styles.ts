@@ -16,6 +16,7 @@ const appearFromBottom = keyframes`
 `;
 
 export const Container = styled.div<IFoodPlateProps>`
+  background: ${({ theme }) => theme.colors.cardBackground};
   border-radius: 8px;
   margin: 0 10px;
   animation: ${appearFromBottom} 1s;
@@ -56,8 +57,10 @@ export const Container = styled.div<IFoodPlateProps>`
   section.body {
     padding: 30px;
     h2 {
+      color: ${({ theme }) => theme.colors.text};
     }
     p {
+      color: ${({ theme }) => theme.colors.text};
       margin-top: 16px;
     }
     .price {
@@ -75,16 +78,19 @@ export const Container = styled.div<IFoodPlateProps>`
     justify-content: space-between;
     align-items: center;
     padding: 20px 30px;
+    background: ${({ theme }) => theme.colors.footer};
     border-radius: 0px 0px 8px 8px;
     div.icon-container {
       display: flex;
       button {
+        background: ${({ theme }) => theme.colors.background};
         padding: 10px;
         border-radius: 8px;
         display: flex;
         border: none;
         transition: 0.1s;
         svg {
+          color: ${({ theme }) => theme.colors.text};
         }
         & + button {
           margin-left: 6px;
@@ -95,6 +101,7 @@ export const Container = styled.div<IFoodPlateProps>`
       display: flex;
       align-items: center;
       p {
+        color: ${({ theme }) => theme.colors.text};
       }
       .switch {
         position: relative;

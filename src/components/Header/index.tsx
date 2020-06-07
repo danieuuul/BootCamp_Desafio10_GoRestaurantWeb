@@ -15,14 +15,14 @@ interface IHeaderProps {
 }
 
 const Header: React.FC<IHeaderProps> = ({ openModal }) => {
-  // const { title } = useContext(ThemeContext);
-  // const { toggleTheme } = useTheme();
+  const { title } = useContext(ThemeContext);
+  const { toggleTheme } = useTheme();
 
   return (
     <Container>
       <header>
         <img src={Logo} alt="GoRestaurant" />
-        {/* <Toggle
+        <Toggle
           checked={title === 'dark'}
           defaultChecked={false}
           onChange={toggleTheme}
@@ -31,7 +31,7 @@ const Header: React.FC<IHeaderProps> = ({ openModal }) => {
             checked: <FaMoon color="yellow" size={12} />,
             unchecked: <FaSun color="yellow" size={12} />,
           }}
-        /> */}
+        />
         <nav>
           <div>
             <button

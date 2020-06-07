@@ -1,6 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 
-// import 'react-toggle/style.css';
+import 'react-toggle/style.css';
 
 export default createGlobalStyle`
   * {
@@ -11,6 +11,8 @@ export default createGlobalStyle`
   }
 
   body {
+    background: ${({ theme }) => theme.colors.background};
+    color: ${({ theme }) => theme.colors.body};
     -webkit-font-smoothing: antialiased;
   }
 
