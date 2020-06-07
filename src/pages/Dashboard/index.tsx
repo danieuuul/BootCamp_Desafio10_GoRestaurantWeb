@@ -4,6 +4,7 @@ import Header from '../../components/Header';
 
 import api from '../../services/api';
 
+import { useToast } from '../../hooks/toast';
 import Food from '../../components/Food';
 import ModalAddFood from '../../components/ModalAddFood';
 import ModalEditFood from '../../components/ModalEditFood';
@@ -25,11 +26,13 @@ const Dashboard: React.FC = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
 
+  const { addToast } = useToast();
+
   useEffect(() => {
     async function loadFoods(): Promise<void> {
-      // TODO LOAD FOODS
+      const response = await api.get('/foods');
+      setFoods(response.data);
     }
-
     loadFoods();
   }, []);
 
@@ -37,7 +40,15 @@ const Dashboard: React.FC = () => {
     food: Omit<IFoodPlate, 'id' | 'available'>,
   ): Promise<void> {
     try {
-      // TODO ADD A NEW FOOD PLATE TO THE API
+      const { data } = await api.post('/foods', { ...food, available: true });
+
+      setFoods(oldFoods => [...oldFoods, data]);
+
+      // addToast({
+      //   type: 'success',
+      //   title: 'Novo prato adicionado',
+      //   description: `${food.name} foi adicionado com sucesso`,
+      // });
     } catch (err) {
       console.log(err);
     }
@@ -46,11 +57,33 @@ const Dashboard: React.FC = () => {
   async function handleUpdateFood(
     food: Omit<IFoodPlate, 'id' | 'available'>,
   ): Promise<void> {
-    // TODO UPDATE A FOOD PLATE ON THE API
+    const { data } = await api.put(`/foods/${editingFood.id}`, {
+      ...food,
+      id: editingFood.id,
+      available: true,
+    });
+
+    const updatedFoods = foods.map(foodToMap =>
+      foodToMap.id === data.id ? data : foodToMap,
+    );
+
+    setFoods(updatedFoods);
   }
 
   async function handleDeleteFood(id: number): Promise<void> {
-    // TODO DELETE A FOOD PLATE FROM THE API
+    await api.delete(`/foods/${id}`);
+
+    setFoods(oldFoods => oldFoods.filter(food => food.id !== id));
+
+    // addToast({
+    //   type: 'info',
+    //   title: 'Prato removido',
+    //   description: `O prato foi removido com sucesso`,
+    // });
+  }
+
+  async function handleUpdateAvailability(food: IFoodPlate): Promise<void> {
+    await api.put(`/foods/${food.id}`, food);
   }
 
   function toggleModal(): void {
@@ -62,7 +95,8 @@ const Dashboard: React.FC = () => {
   }
 
   function handleEditFood(food: IFoodPlate): void {
-    // TODO SET THE CURRENT EDITING FOOD ID IN THE STATE
+    setEditingFood(food);
+    toggleEditModal();
   }
 
   return (
@@ -88,6 +122,7 @@ const Dashboard: React.FC = () => {
               food={food}
               handleDelete={handleDeleteFood}
               handleEditFood={handleEditFood}
+              handleUpdateAvailability={handleUpdateAvailability}
             />
           ))}
       </FoodsContainer>
